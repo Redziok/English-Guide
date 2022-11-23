@@ -1,0 +1,70 @@
+.text-page-container {
+    width: 100%;
+    display: flex;
+}
+
+.text-page-preview,
+.text-page-translation {
+    margin: 2rem 2rem 1rem 2rem;
+    padding: 1.25rem 2.4rem 0 2.4rem;
+    background-color: rgb(16, 17, 18);
+    width: 50%;
+    color: white;
+}
+
+hr {
+    margin: 1.5rem 0 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 1);
+}
+
+.text-page-preview-title {
+    text-align: left;
+    width: 100%;
+    height: 25px;
+    color: rgb(199, 194, 187);
+}
+
+.text-page-preview-text,
+.translation-page-preview-text {
+    text-align: left;
+    min-height: 70vh;
+    height: 80%;
+    width: 40vw;
+    color: rgb(199, 194, 187);
+}
+
+.text-page-preview-user {
+    color: rgb(129, 131, 132);
+    text-align: left;
+    font-size: 10px;
+}
+
+.text-page-preview-language {
+    width: 4.5vw;
+    background-color: rgb(255, 135, 23);
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-size: 0.9vw;
+    margin-top: 0.1rem;
+    cursor: auto;
+}
+
+.text-translation {
+    height: 70vh;
+    width: 100%;
+    margin-top: 2rem;
+    background-color: rgb(54,54,54);
+    color: rgba(208,204,198, 1);
+    text-align: left;
+}
+
+.language-choose-container-add-translation {
+    min-width: 15rem;
+    width: 15rem;
+    color:white !important;
+}
+
+.text-empty-container {
+    padding: 15rem 0 0 0;
+    text-align: center;
+}

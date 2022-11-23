@@ -1,0 +1,12 @@
+html, body, #root, .App {
+  height: calc(100% - 2px);
+  width: 100%;
+  background-color: rgb(20, 25, 30);
+  margin: 0;
+}
+
+button {
+  border-color: #736b5e;
+  color: #e8e6e3;
+  background-color: #181a1b;
+}

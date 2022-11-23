@@ -1,0 +1,17 @@
+.logo {
+    height: 3rem;
+    vertical-align: middle;
+}
+
+.my-2 {
+    margin: 0.25rem 0.25rem 0.25rem 0.25rem !important;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.navbar-nav .show > .nav-link, .navbar-nav .nav-link.active {
+    color: black;
+}
+
+i {
+    font-size: 1.6rem !important;
+}
