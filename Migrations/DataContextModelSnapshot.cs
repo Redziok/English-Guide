@@ -33,15 +33,12 @@ namespace mingielewiczinzynierka.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("text")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("textLanguage")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("title")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("idText");
@@ -66,11 +63,9 @@ namespace mingielewiczinzynierka.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("translatedText")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("translationLanguage")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("idTranslation");
@@ -94,15 +89,12 @@ namespace mingielewiczinzynierka.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("email")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("login")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("password")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("idUser");

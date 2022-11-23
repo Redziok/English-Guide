@@ -17,10 +17,10 @@ namespace mingielewiczinzynierka.Migrations
                 {
                     idUser = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    login = table.Column<string>(type: "text", nullable: false),
-                    email = table.Column<string>(type: "text", nullable: false),
+                    login = table.Column<string>(type: "text", nullable: true),
+                    email = table.Column<string>(type: "text", nullable: true),
                     admin = table.Column<bool>(type: "boolean", nullable: false),
-                    password = table.Column<string>(type: "text", nullable: false)
+                    password = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -33,9 +33,9 @@ namespace mingielewiczinzynierka.Migrations
                 {
                     idText = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    title = table.Column<string>(type: "text", nullable: false),
-                    text = table.Column<string>(type: "text", nullable: false),
-                    textLanguage = table.Column<string>(type: "text", nullable: false),
+                    title = table.Column<string>(type: "text", nullable: true),
+                    text = table.Column<string>(type: "text", nullable: true),
+                    textLanguage = table.Column<string>(type: "text", nullable: true),
                     idUser = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -55,8 +55,8 @@ namespace mingielewiczinzynierka.Migrations
                 {
                     idTranslation = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    translatedText = table.Column<string>(type: "text", nullable: false),
-                    translationLanguage = table.Column<string>(type: "text", nullable: false),
+                    translatedText = table.Column<string>(type: "text", nullable: true),
+                    translationLanguage = table.Column<string>(type: "text", nullable: true),
                     idText = table.Column<int>(type: "integer", nullable: false),
                     idUser = table.Column<int>(type: "integer", nullable: false)
                 },

@@ -12,6 +12,12 @@ namespace InzynierkaBackend.Data
                 entity.HasIndex(e => e.email).IsUnique();
             });
         }
+
+        public DataContext()
+        {
+            this.ChangeTracker.LazyLoadingEnabled = false;
+        }
+
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<Text> Texts { get; set; }
