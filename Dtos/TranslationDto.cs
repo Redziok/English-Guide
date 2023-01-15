@@ -1,19 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace mingielewicz_inzynierka.Models
+namespace mingielewicz_inzynierka.Dtos
 {
-    public class Translation
+    public class TranslationDto
     {
-        [Key]
         public int idTranslation { get; set; }
         public string translatedText { get; set; }
         public string translationLanguage { get; set; }
         public int idText { get; set; }
-        [ForeignKey("idText")]
-        public Text text { get; set; }
         public int idUser { get; set; }
-        [ForeignKey("idUser")]
-        public User user { get; set; }
+        public string login { get; set; }
     }
 }

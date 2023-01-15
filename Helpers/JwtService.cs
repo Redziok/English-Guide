@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace InzynierkaBackend.Helpers
+namespace mingielewicz_inzynierka.Helpers
 {
     public class JwtService
     {

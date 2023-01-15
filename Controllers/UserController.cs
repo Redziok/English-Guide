@@ -1,13 +1,13 @@
-﻿using InzynierkaBackend.Data;
-using InzynierkaBackend.Dtos;
-using InzynierkaBackend.Helpers;
-using InzynierkaBackend.Models;
+﻿using mingielewicz_inzynierka.Data;
+using mingielewicz_inzynierka.Dtos;
+using mingielewicz_inzynierka.Helpers;
+using mingielewicz_inzynierka.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace InzynierkaBackend.Controllers
+namespace mingielewicz_inzynierka.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

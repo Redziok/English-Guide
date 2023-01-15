@@ -1,6 +1,6 @@
-﻿using InzynierkaBackend.Models;
+﻿using mingielewicz_inzynierka.Models;
 
-namespace InzynierkaBackend.Data
+namespace mingielewicz_inzynierka.Data
 {
     public interface IUserRepository
     {

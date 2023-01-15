@@ -19,7 +19,7 @@ namespace mingielewiczinzynierka.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     login = table.Column<string>(type: "text", nullable: true),
                     email = table.Column<string>(type: "text", nullable: true),
-                    admin = table.Column<bool>(type: "boolean", nullable: false),
+                    admin = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     password = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -77,6 +77,49 @@ namespace mingielewiczinzynierka.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Ratings",
+                columns: table => new
+                {
+                    idRating = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ratingValue = table.Column<int>(type: "integer", nullable: false),
+                    idUser = table.Column<int>(type: "integer", nullable: false),
+                    idTranslation = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ratings", x => x.idRating);
+                    table.ForeignKey(
+                        name: "FK_Ratings_Translations_idTranslation",
+                        column: x => x.idTranslation,
+                        principalTable: "Translations",
+                        principalColumn: "idTranslation",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ratings_Users_idUser",
+                        column: x => x.idUser,
+                        principalTable: "Users",
+                        principalColumn: "idUser",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "idUser", "admin", "email", "login", "password" },
+                values: new object[] { 1, true, "Redziok@wp.pl", "Redziok", "$2a$11$ySwH3npOz/X8jG11tvgjv.hJTMwwjc4Grvc6aqiyGy/GCtgcY2Y2i" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ratings_idTranslation",
+                table: "Ratings",
+                column: "idTranslation");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ratings_idUser_idTranslation",
+                table: "Ratings",
+                columns: new[] { "idUser", "idTranslation" },
+                unique: true);
+
             migrationBuilder.CreateIndex(
                 name: "IX_Texts_idUser",
                 table: "Texts",
@@ -108,6 +151,9 @@ namespace mingielewiczinzynierka.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Ratings");
+
             migrationBuilder.DropTable(
                 name: "Translations");
 

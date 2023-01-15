@@ -1,11 +1,12 @@
-﻿using InzynierkaBackend.Data;
-using InzynierkaBackend.Models;
+﻿using mingielewicz_inzynierka.Data;
+using mingielewicz_inzynierka.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using mingielewicz_inzynierka.Dtos;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace InzynierkaBackend.Controllers
+namespace mingielewicz_inzynierka.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -20,26 +21,79 @@ namespace InzynierkaBackend.Controllers
 
         // GET: api/Translation
         [HttpGet]
-        public async Task<ActionResult<List<Translation>>> GetTranslations()
+        public async Task<ActionResult<List<TranslationDto>>> GetTranslations()
         {
             if (_context.Translations == null)
             {
                 return NotFound();
             }
 
-            return await _context.Translations.ToListAsync();
+            var translations = await _context.Translations
+                                                          .Include(p => p.user)
+                                                          .Select(p => 
+                                                          new TranslationDto
+                                                          {
+                                                              idTranslation = p.idTranslation,
+                                                              translatedText = p.translatedText,
+                                                              translationLanguage = p.translationLanguage,
+                                                              idText = p.idText,
+                                                              idUser = p.idUser,
+                                                              login = p.user.login ?? String.Empty
+                                                          }).ToListAsync();
+
+            return translations;
         }
 
-        // GET: api/Translation/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<List<Translation>>> GetTranslationByTextId(int id)
+        // GET: api/Translation/text=5
+        [HttpGet("text={id}")]
+        public async Task<ActionResult<List<TranslationDto>>> GetTranslationByTextId(int id)
         {
             if (_context.Translations == null)
             {
                 return NotFound();
             }
             var translation = await _context.Translations
-                                                         .Where(p => p.idText == id).Include(p => p.Text)
+                                                         .Where(p => p.idText == id)
+                                                         .Include(p => p.user)
+                                                         .Select(p => 
+                                                         new TranslationDto
+                                                         {
+                                                             idTranslation = p.idTranslation,
+                                                             translatedText = p.translatedText,
+                                                             translationLanguage = p.translationLanguage,
+                                                             idText = p.idText,
+                                                             idUser = p.idUser,
+                                                             login = p.user.login ?? String.Empty
+                                                         })
+                                                         .ToListAsync();
+
+            if (translation == null)
+            {
+                return NotFound();
+            }
+            return translation;
+        }
+
+        // GET: api/Translation/user=5
+        [HttpGet("user={id}")]
+        public async Task<ActionResult<List<TranslationDto>>> GetTranslationByUserId(int id)
+        {
+            if (_context.Translations == null)
+            {
+                return NotFound();
+            }
+            var translation = await _context.Translations
+                                                         .Where(p => p.idUser == id)
+                                                         .Include(p => p.user)
+                                                         .Select(p =>
+                                                         new TranslationDto
+                                                         {
+                                                             idTranslation = p.idTranslation,
+                                                             translatedText = p.translatedText,
+                                                             translationLanguage = p.translationLanguage,
+                                                             idText = p.idText,
+                                                             idUser = p.idUser
+                                                         })
                                                          .ToListAsync();
 
             if (translation == null)
@@ -52,7 +106,7 @@ namespace InzynierkaBackend.Controllers
         // POST: api/Translation
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Translation>> PostTranslation([FromForm] string translatedText, [FromForm] string translationLanguage, [FromForm] int idText, [FromForm] int idUser)
+        public async Task<ActionResult<TranslationDto>> PostTranslation([FromForm] string translatedText, [FromForm] string translationLanguage, [FromForm] int idText, [FromForm] int idUser)
         {
             var translations = new Translation();
             translations.translatedText = translatedText;
@@ -73,7 +127,7 @@ namespace InzynierkaBackend.Controllers
         // PUT: api/Translation/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> putText(int id, [FromForm] string translatedText, [FromForm] string translationLanguage, [FromForm] int idText, [FromForm] int idUser)
+        public async Task<IActionResult> putTranslation(int id, [FromForm] string translatedText, [FromForm] string translationLanguage, [FromForm] int idText, [FromForm] int idUser)
         {
             var translations = _context.Translations.FirstOrDefault(p => p.idTranslation == id);
             if (id != translations.idTranslation)
@@ -94,7 +148,7 @@ namespace InzynierkaBackend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TextExists(id))
+                if (!TranslationExists(id))
                 {
                     return NotFound();
                 }
@@ -108,7 +162,7 @@ namespace InzynierkaBackend.Controllers
 
         // DELETE: api/Translation/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteText(int id)
+        public async Task<IActionResult> DeleteTranslation(int id)
         {
             if (_context.Translations == null)
             {
@@ -126,7 +180,7 @@ namespace InzynierkaBackend.Controllers
             return NoContent();
         }
 
-        private bool TextExists(int id)
+        private bool TranslationExists(int id)
         {
             return (_context.Translations?.Any(e => e.idTranslation == id)).GetValueOrDefault();
         }

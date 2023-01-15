@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace InzynierkaBackend.Models
+namespace mingielewicz_inzynierka.Models
 {
     public class User
     {

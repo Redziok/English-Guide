@@ -1,60 +1,92 @@
 .login-form-container,
 .register-form-container {
-    height: calc(100vh - 100px);
-    width: calc(100vw - 1px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	height: calc(100vh - 100px);
+	width: calc(100vw - 1px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .login-form-container .login-form,
 .register-form-container .register-form {
-    background-color: rgb(13, 14, 14);
-    width: 15vw;
-    height: 100%;
-    text-align: center;
-    padding: 0.5rem;
+	background-color: rgb(13, 14, 14);
+	width: 15vw;
+	height: 100%;
+	text-align: center;
+	padding: 0.5rem;
 }
 
-.login-form-container .input, label,
-.register-form-container .input, label {
-    display: block;
-    margin: 0.5em 0 0.5em 0;
-    color: white;
-    background-color: var(--background);
+.login-form-container .input,
+label,
+.register-form-container .input,
+label {
+	display: block;
+	margin: 0.5em 0 0.5em 0;
+	color: white;
+	background-color: var(--background);
 }
 
 .login-form-container input,
 .register-form-container input {
-    background-color: rgb(41, 44, 46);
-    color: white;
-    width: 13vw;
+	background-color: rgb(41, 44, 46);
+	color: white;
+	width: 13vw;
 }
 
 .register-href {
-    font-size: 0.9em;
-    display: block;
-    margin-top: 0.5em;
+	font-size: 0.9em;
+	display: block;
+	margin-top: 0.5em;
 }
 
 .login,
 .register {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-bottom: 1rem;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	margin-bottom: 1rem;
 }
 
-p {
-    color: white;
-    cursor: pointer;
+.login-form-container p,
+.register-form-container p {
+	color: white;
+	cursor: pointer;
 }
 
 .register-form p:hover,
 .login-form p:hover {
-    font-weight: 800;
-} 
+	font-weight: 800;
+}
 
 h2 {
-    color: white;
-    font-weight: 800;
-    margin: 0.5rem 0 0 0;
+	color: white;
+	font-weight: 800;
+	margin: 0.5rem 0 0 0;
+}
+
+.wrong-credentials-error {
+	border-color: red;
+	animation: vertical-shaking 0.25s 1;
+}
+
+.wrong-credentials-text {
+	color: red !important;
+	font-size: 0.75rem;
+	margin-top: 0.5rem;
+}
+
+@keyframes vertical-shaking {
+	0% {
+		transform: translateY(0);
+	}
+	25% {
+		transform: translateY(5px);
+	}
+	50% {
+		transform: translateY(-5px);
+	}
+	75% {
+		transform: translateY(5px);
+	}
+	100% {
+		transform: translateY(0);
+	}
 }

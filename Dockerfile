@@ -1,5 +1,4 @@
-# Build Stage
-FROM mcr.microsoft.com/dotnet/sdk:6.0-focal
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 COPY ./bin/Release/net6.0/publish/ /app
 

@@ -1,7 +1,7 @@
-﻿using InzynierkaBackend.Models;
+﻿using mingielewicz_inzynierka.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace InzynierkaBackend.Data
+namespace mingielewicz_inzynierka.Data
 {
     public class UserRepository : IUserRepository
     {

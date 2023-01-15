@@ -1,4 +1,4 @@
-﻿namespace InzynierkaBackend.Dtos
+﻿namespace mingielewicz_inzynierka.Dtos
 {
     public class RegisterDto
     {

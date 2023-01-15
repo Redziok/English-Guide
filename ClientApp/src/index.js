@@ -1,21 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import NavMenu from './components/NavMenu';
 import 'font-awesome/css/font-awesome.min.css';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <BrowserRouter basename={baseUrl}>
-      <NavMenu />
-    <App />
-  </BrowserRouter>,
+	<BrowserRouter basename={baseUrl}>
+		<App />
+	</BrowserRouter>
 );
 
 // If you want your app to work offline and load faster, you can change

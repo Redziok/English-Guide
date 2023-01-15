@@ -1,7 +1,8 @@
-﻿using InzynierkaBackend.Data;
-using InzynierkaBackend.Models;
+﻿using mingielewicz_inzynierka.Data;
+using mingielewicz_inzynierka.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using mingielewicz_inzynierka.Dtos;
 
 namespace InzynierkaBackend.Controllers
 {
@@ -18,25 +19,79 @@ namespace InzynierkaBackend.Controllers
 
         // GET: api/Text
         [HttpGet]
-        public async Task<ActionResult<List<Text>>> GetTexts()
+        public async Task<ActionResult<List<TextDto>>> GetTexts()
         {
             if (_context.Texts == null)
             {
                 return NotFound();
             }
 
-            return await _context.Texts.ToListAsync();
+            var text = await _context.Texts
+                                           .Include(p => p.user)
+                                           .Select(p =>
+                                           new TextDto
+                                           {
+                                               idText = p.idText,
+                                               title = p.title,
+                                               text = p.text,
+                                               textLanguage = p.textLanguage,
+                                               idUser = p.idUser,
+                                               login = p.user.login ?? String.Empty
+                                           }).ToListAsync();
+
+            return text;
         }
 
         // GET: api/Text/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Text>> GetText(int id)
+        public async Task<ActionResult<TextDto>> GetText(int id)
         {
             if (_context.Texts == null)
             {
                 return NotFound();
             }
-            var text = _context.Texts.FirstOrDefault(p => p.idText == id);
+            var text = await _context.Texts
+                                    .Where(p => p.idText == id)
+                                    .Include(p => p.user)
+                                    .Select(p =>
+                                    new TextDto
+                                    {
+                                        idText = p.idText,
+                                        title = p.title,
+                                        text = p.text,
+                                        textLanguage = p.textLanguage,
+                                        idUser = p.idUser,
+                                        login = p.user.login ?? String.Empty
+                                    }).FirstOrDefaultAsync(p => p.idText == id);
+
+            if (text == null)
+            {
+                return NotFound();
+            }
+            return text;
+        }
+
+        // GET: api/Text/5
+        [HttpGet("user={id}")]
+        public async Task<ActionResult<List<TextDto>>> GetTextsByUserId(int id)
+        {
+            if (_context.Texts == null)
+            {
+                return NotFound();
+            }
+            var text = await _context.Texts
+                                    .Where(p => p.idUser == id)
+                                    .Include(p => p.user)
+                                    .Select(p =>
+                                    new TextDto
+                                    {
+                                        idText = p.idText,
+                                        title = p.title,
+                                        text = p.text,
+                                        textLanguage = p.textLanguage,
+                                        idUser = p.idUser,
+                                        login = p.user.login ?? String.Empty
+                                    }).ToListAsync();
 
             if (text == null)
             {
