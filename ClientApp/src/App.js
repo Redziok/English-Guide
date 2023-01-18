@@ -40,37 +40,13 @@ const App = () => {
 
 	return (
 		<React.Fragment>
-			<NavMenu
-				isUserLogged={isUserLogged}
-				user={user}
-				loggedOut={loggedOut}
-			/>
+			<NavMenu isUserLogged={isUserLogged} user={user} loggedOut={loggedOut} />
 			<Routes>
-				<Route
-					path="About"
-					element={<About />}
-				/>
-				<Route
-					path="Login"
-					element={<LoginForm loggedIn={loggedIn} />}
-				/>
-				<Route
-					path="/"
-					element={<SearchText isUserLogged={isUserLogged} />}
-				/>
-				<Route
-					path="Text/:textId"
-					element={
-						<TextPage
-							isUserLogged={isUserLogged}
-							user={user}
-						/>
-					}
-				/>
-				<Route
-					path="/:userLogin"
-					element={<Profile user={user} />}
-				/>
+				<Route path="About" element={<About />} />
+				<Route path="Login" element={<LoginForm loggedIn={loggedIn} />} />
+				<Route path="/" element={<SearchText isUserLogged={isUserLogged} />} />
+				<Route path="Text/:textId" element={<TextPage isUserLogged={isUserLogged} user={user} />} />
+				<Route path="/:userLogin" element={<Profile user={user} />} />
 				<Route
 					path="*"
 					element={
@@ -79,10 +55,7 @@ const App = () => {
 						</main>
 					}
 				/>
-				<Route
-					path="AddText"
-					element={<AddText />}
-				/>
+				<Route path="AddText" element={<AddText />} />
 			</Routes>
 		</React.Fragment>
 	);

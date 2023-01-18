@@ -12,6 +12,7 @@ button {
 	border-color: #736b5e;
 	color: #e8e6e3;
 	background-color: #181a1b;
+	border-radius: 0.5rem;
 }
 
 button:hover {

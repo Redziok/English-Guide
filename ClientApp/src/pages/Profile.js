@@ -3,7 +3,7 @@ import '../styles/Profile.css';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_CALL } from '../components/constants';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/dist/sweetalert2';
 
 const Profile = (props) => {
 	const { user } = props;
@@ -65,11 +65,7 @@ const Profile = (props) => {
 					axios
 						.delete(`${API_CALL}/Text/${idToRemove}`)
 						.then((res) => {
-							swalWithBootstrapButtons.fire(
-								'Deleted!',
-								'Your text has been deleted.',
-								'success'
-							);
+							swalWithBootstrapButtons.fire('Deleted!', 'Your text has been deleted.', 'success');
 							fetchTexts();
 						})
 						.catch((err) => {
@@ -79,11 +75,7 @@ const Profile = (props) => {
 					axios
 						.delete(`${API_CALL}/Translation/${idToRemove}`)
 						.then((res) => {
-							swalWithBootstrapButtons.fire(
-								'Deleted!',
-								'Your translation has been deleted.',
-								'success'
-							);
+							swalWithBootstrapButtons.fire('Deleted!', 'Your translation has been deleted.', 'success');
 							fetchTranslations();
 						})
 						.catch((err) => {
@@ -98,46 +90,27 @@ const Profile = (props) => {
 			{user.login === userLogin ? (
 				<>
 					<div className="translation-text-button-container">
-						<button
-							type="button"
-							onClick={toggle}
-							disabled={isTextChosen}
-						>
+						<button type="button" onClick={toggle} disabled={isTextChosen}>
 							Texts
 						</button>
-						<button
-							type="button"
-							onClick={toggle}
-							disabled={!isTextChosen}
-						>
+						<button type="button" onClick={toggle} disabled={!isTextChosen}>
 							Translations
 						</button>
 					</div>
 					{isTextChosen ? (
 						<>
 							{texts.map((text) => (
-								<div
-									key={text.idText}
-									className="profile-text-container"
-								>
-									<Link
-										to={`/Text/${text.idText}`}
-										className="profile-text"
-									>
+								<div key={text.idText} className="profile-text-container">
+									<Link to={`/Text/${text.idText}`} className="profile-text">
 										<div className="profile-text-preview-title-lang">
 											{text.title}
-											<p className="profile-text-preview-language">
-												{text.textLanguage}
-											</p>
+											<p className="profile-text-preview-language">{text.textLanguage}</p>
 										</div>
 									</Link>
 									<hr />
 									<div className="profile-text-preview-text">{text.text}</div>
 									<div className="profile-text-options">
-										<i
-											className="fa fa-trash"
-											onClick={() => removeText(true, text.idText)}
-										/>
+										<i className="fa fa-trash" onClick={() => removeText(true, text.idText)} />
 									</div>
 								</div>
 							))}
@@ -145,32 +118,17 @@ const Profile = (props) => {
 					) : (
 						<>
 							{translations.map((translation) => (
-								<div
-									key={translation.idTranslation}
-									className="profile-text-container"
-								>
-									<Link
-										to={`/Text/${translation.idText}`}
-										className="profile-text"
-									>
+								<div key={translation.idTranslation} className="profile-text-container">
+									<Link to={`/Text/${translation.idText}`} className="profile-text">
 										<div className="profile-text-preview-title-lang">
 											{translation.idText}
-											<p className="profile-text-preview-language">
-												{translation.translationLanguage}
-											</p>
+											<p className="profile-text-preview-language">{translation.translationLanguage}</p>
 										</div>
 									</Link>
 									<hr />
-									<div className="profile-text-preview-text">
-										{translation.translatedText}
-									</div>
+									<div className="profile-text-preview-text">{translation.translatedText}</div>
 									<div className="profile-text-options">
-										<i
-											className="fa fa-trash"
-											onClick={() =>
-												removeText(false, translation.idTranslation)
-											}
-										/>
+										<i className="fa fa-trash" onClick={() => removeText(false, translation.idTranslation)} />
 									</div>
 								</div>
 							))}

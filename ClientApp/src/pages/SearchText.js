@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/SearchText.css';
 import axios from 'axios';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { API_CALL } from '../components/constants';
 
 function SearchText(props) {
@@ -14,9 +14,7 @@ function SearchText(props) {
 			.then((res) => {
 				setTexts(res.data);
 			})
-			.catch((err) => {
-				console.log(err);
-			});
+			.catch((err) => {});
 	}, []);
 
 	const onTextClick = () => {
@@ -27,31 +25,19 @@ function SearchText(props) {
 		<div className="search-text-container">
 			{props.isUserLogged && (
 				<div className="add-text-input-container">
-					<input
-						className="add-text"
-						type="text"
-						placeholder="Add your own text"
-						onClick={onTextClick}
-					/>
+					<input className="add-text" type="text" placeholder="Add your own text" onClick={onTextClick} />
 				</div>
 			)}
 			<div className="search-text-header">
 				{texts.map((text) => (
-					<Link
-						to={`/Text/${text.idText}`}
-						key={text.idText}
-					>
-						<div
-							className="text-list-element"
-							key={text.idText}
-						>
+					<Link to={`/Text/${text.idText}`} key={text.idText}>
+						<div className="text-list-element" key={text.idText}>
 							{text.title}
 							<p className="text-list-language">{text.textLanguage}</p>
 						</div>
 					</Link>
 				))}
 			</div>
-			<Outlet />
 		</div>
 	);
 }

@@ -1,3 +1,20 @@
+import Swal from 'sweetalert2'
+
+export const createToast = Swal.mixin({
+	toast: true,
+	animation: true,
+	icon: 'success',
+	text: 'text',
+	position: 'top-right',
+	timer: 2000,
+	timerProgressBar: true,
+	showConfirmButton: false,
+	didOpen: (toast) => {
+		toast.addEventListener('mouseenter', Swal.stopTimer)
+		toast.addEventListener('mouseleave', Swal.resumeTimer)
+	},
+})
+
 export const customStyles = {
 	singleValue: (provided, { data }) => ({
 		...provided,
@@ -41,7 +58,7 @@ export const customStyles = {
 		...base,
 		background: isFocused && 'grey',
 	}),
-};
+}
 
-export const API_CALL = 'https://localhost:7232/api';
+export const API_CALL = 'https://localhost:7232/api'
 //export const API_CALL = 'https://mingielewicz-inzynierka.onrender.com/api';

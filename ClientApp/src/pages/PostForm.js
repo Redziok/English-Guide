@@ -69,51 +69,23 @@ export class PostForm extends Component {
 		const { title, text, language } = this.state;
 		return (
 			<div className="add-text-container">
-				<form
-					id="login-form"
-					onSubmit={this.submitHandler}
-				>
+				<form id="login-form" onSubmit={this.submitHandler}>
 					<div className="add-text-inputs">
 						<h3 className="title-text">Title</h3>
 						<div className="title-container">
-							<input
-								type="text"
-								className="title"
-								name="title"
-								value={title}
-								onChange={this.changeHandler}
-							/>
+							<input type="text" className="title" name="title" value={title} onChange={this.changeHandler} />
 						</div>
 						<h3 className="text-text">Text</h3>
 						<div className="text-container">
-							<textarea
-								type="text"
-								className="text"
-								name="text"
-								value={text}
-								onChange={this.changeHandler}
-							/>
+							<textarea type="text" className="text" name="text" value={text} onChange={this.changeHandler} />
 						</div>
 					</div>
 					<div className="options-container">
-						<label className="language-choose-label">
-							Choose Text language
-						</label>
+						<label className="language-choose-label">Choose Text language</label>
 						<div className="language-choose-container">
-							<Select
-								styles={customStyles}
-								className="language-choose-container-add-text"
-								value={language}
-								onChange={this.languageHandler}
-								options={languages}
-								defaultValue={languages[0]}
-							/>
-							<button
-								className="submit"
-								type="submit"
-							>
-								{' '}
-								Submit{' '}
+							<Select styles={customStyles} className="language-choose-container-add-text" value={language} onChange={this.languageHandler} options={languages} defaultValue={languages[0]} />
+							<button className="submit" type="submit">
+								Submit
 							</button>
 						</div>
 					</div>

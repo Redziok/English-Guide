@@ -91,3 +91,18 @@
 	pointer-events: none;
 	color: yellow;
 }
+
+.text-containers-has-translation,
+.text-containers-empty {
+	margin-bottom: 2rem;
+}
+
+.text-containers-has-translation {
+	width: max-content;
+	background-color: rgb(32, 34, 36);
+}
+
+.text-containers-is-translated {
+	width: max-content;
+	background-color: rgb(60, 60, 60);
+}

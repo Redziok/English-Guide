@@ -3,7 +3,6 @@ import logo from '../assets/backgroundfix.png';
 import '../styles/NavMenu.css';
 import axios from 'axios';
 import { API_CALL } from './constants';
-
 import {
 	Collapse,
 	Navbar,
@@ -25,42 +24,21 @@ const NavMenu = (props) => {
 	const toggle = () => setIsOpen(!isOpen);
 
 	const logoutHandle = () => {
-		axios
-			.post(`${API_CALL}/User/logout`, null, { withCredentials: true })
-			.then(() => {
-				props.loggedOut();
-			});
+		axios.post(`${API_CALL}/User/logout`, null, { withCredentials: true }).then(() => {
+			loggedOut();
+		});
 	};
 
 	return (
-		<Navbar
-			className="my-2"
-			color="dark"
-			expand="sm"
-			dark
-		>
+		<Navbar className="my-2" color="dark" expand="sm" dark>
 			<NavbarBrand href="/">
-				<img
-					className="logo"
-					src={logo}
-					alt=""
-				/>
+				<img className="logo" src={logo} alt="" />
 			</NavbarBrand>
 			<NavbarToggler onClick={toggle} />
-			<Collapse
-				isOpen={isOpen}
-				navbar
-			>
-				<Nav
-					className="ms-auto"
-					navbar
-					tabs
-				>
+			<Collapse isOpen={isOpen} navbar>
+				<Nav className="ms-auto" navbar tabs>
 					{isUserLogged ? (
-						<UncontrolledDropdown
-							direction="down"
-							nav
-						>
+						<UncontrolledDropdown direction="down" nav>
 							{window.location.pathname === `/${user?.login}` ? (
 								<DropdownToggle color="light">
 									<i className="fa fa-user-circle" />
@@ -79,19 +57,13 @@ const NavMenu = (props) => {
 						</UncontrolledDropdown>
 					) : (
 						<NavItem>
-							<NavLink
-								href="/login"
-								active={window.location.pathname === '/login'}
-							>
+							<NavLink href="/login" active={window.location.pathname === '/login'}>
 								Login
 							</NavLink>
 						</NavItem>
 					)}
 					<NavItem>
-						<NavLink
-							href="/about"
-							active={window.location.pathname === '/about'}
-						>
+						<NavLink href="/about" active={window.location.pathname === '/about'}>
 							About
 						</NavLink>
 					</NavItem>
