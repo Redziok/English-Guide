@@ -15,7 +15,7 @@ namespace mingielewicz_inzynierka.Data
         public User Create(User user)
         {
             _context.Users.Add(user);
-            user.idUser = _context.SaveChanges();
+            user.id = _context.SaveChanges();
 
             return user;
         }
@@ -27,7 +27,7 @@ namespace mingielewicz_inzynierka.Data
 
         public User GetById(int idUser)
         {
-            return _context.Users.FirstOrDefault(e => e.idUser == idUser);
+            return _context.Users.FirstOrDefault(e => e.id == idUser);
         }
 
         public List<User> GetUsers()

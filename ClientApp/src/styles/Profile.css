@@ -43,7 +43,7 @@
 }
 
 .profile-container a {
-	color: rgb(150, 150, 150);
+	color: white;
 }
 
 .profile-container a:hover,
@@ -51,7 +51,7 @@
 .profile-container a:active,
 .profile-container a:focus {
 	text-decoration: none;
-	color: rgb(150, 150, 150);
+	color: white;
 }
 
 .profile-container button {
@@ -64,9 +64,10 @@
 	padding: 0.5rem 0.5rem 0rem 1rem;
 }
 
-.profile-text-preview-language {
-	font-size: 0.8rem;
-	color: #009cf8;
+.profile-text-container .translation {
+	background-color: rgb(151, 38, 65);
+	margin-left: 1rem;
+	color: white;
 }
 
 .profile-text-container hr {
@@ -76,10 +77,11 @@
 
 .profile-text-preview-text {
 	text-align: left;
-	padding: 0.5rem 0.5rem 1rem 1rem;
+	padding: 0 0.5rem 1rem 1rem;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+	color: rgb(150, 150, 150);
 }
 
 .profile-text-options i {

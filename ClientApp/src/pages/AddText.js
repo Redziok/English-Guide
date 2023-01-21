@@ -3,15 +3,7 @@ import '../styles/AddText.css'
 import axios from 'axios'
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom'
-import { customStyles, API_CALL, createToast } from '../components/constants'
-
-export const languages = [
-	{ value: 'Polish', label: 'Polish' },
-	{ value: 'English', label: 'English' },
-	{ value: 'German', label: 'German' },
-	{ value: 'Russian', label: 'Russian' },
-	{ value: 'Spanish', label: 'Spanish' },
-]
+import { customStyles, API_CALL, createToast, languages } from '../components/constants'
 
 function withParams(Component) {
 	return function (props) {
@@ -27,22 +19,8 @@ class AddText extends Component {
 			title: '',
 			text: '',
 			language: null,
-			idUser: null,
+			languages: languages,
 		}
-	}
-
-	componentDidMount() {
-		this.fetchTexts()
-	}
-
-	fetchTexts = async () => {
-		const response = await fetch(`${API_CALL}/User/user`, {
-			headers: { 'Content-Type': 'application/json' },
-			credentials: 'include',
-		})
-
-		const content = await response.json()
-		this.setState({ idUser: content.idUser })
 	}
 
 	changeHandler = (e) => {
@@ -65,16 +43,11 @@ class AddText extends Component {
 		const formData = new FormData()
 		formData.append('title', this.state.title)
 		formData.append('text', this.state.text)
-		formData.append('idUser', this.state.idUser)
-		formData.append('textLanguage', this.state.language.value)
-		axios
-			.post(`${API_CALL}/Text`, formData)
-			.then((res) => {
-				this.props.params(`/Text/${res.data.idText}`)
-			})
-			.catch((err) => {
-				console.log(err)
-			})
+		formData.append('idUser', this.props.user?.id)
+		formData.append('language', this.state.language?.value)
+		axios.post(`${API_CALL}/Text`, formData).then((res) => {
+			this.props.params(`/Text/${res.data.id}`)
+		})
 	}
 
 	render() {

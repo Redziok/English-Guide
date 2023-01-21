@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import './styles/App.css';
-import { Routes, Route } from 'react-router-dom';
-import AddText from './pages/AddText';
-import About from './pages/About';
-import SearchText from './pages/SearchText';
-import TextPage from './pages/TextPage';
-import NavMenu from './components/NavMenu';
-import LoginForm from './pages/LoginForm';
-import { API_CALL } from './components/constants';
-import Profile from './pages/Profile';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
+import './styles/App.css'
+import { Routes, Route } from 'react-router-dom'
+import AddText from './pages/AddText'
+import About from './pages/About'
+import SearchText from './pages/SearchText'
+import TextPage from './pages/TextPage'
+import NavMenu from './components/NavMenu'
+import LoginForm from './pages/LoginForm'
+import { API_CALL } from './components/constants'
+import Profile from './pages/Profile'
+import axios from 'axios'
 
 const App = () => {
-	const [user, setUser] = useState([]);
-	const [isUserLogged, setIsUserLogged] = useState(false);
+	const [user, setUser] = useState([])
+	const [isUserLogged, setIsUserLogged] = useState(false)
 
 	useEffect(() => {
 		const fetchUser = async () => {
@@ -22,43 +22,43 @@ const App = () => {
 					withCredentials: true,
 				})
 				.then((res) => {
-					setIsUserLogged(true);
-					setUser(res.data);
+					setIsUserLogged(true)
+					setUser(res.data)
 				})
-				.catch((err) => {});
-		};
-		fetchUser();
-	}, [isUserLogged]);
+				.catch((err) => {})
+		}
+		fetchUser()
+	}, [isUserLogged])
 
 	const loggedIn = () => {
-		setIsUserLogged(true);
-	};
+		setIsUserLogged(true)
+	}
 
 	const loggedOut = () => {
-		setIsUserLogged(false);
-	};
+		setIsUserLogged(false)
+	}
 
 	return (
 		<React.Fragment>
 			<NavMenu isUserLogged={isUserLogged} user={user} loggedOut={loggedOut} />
 			<Routes>
-				<Route path="About" element={<About />} />
-				<Route path="Login" element={<LoginForm loggedIn={loggedIn} />} />
-				<Route path="/" element={<SearchText isUserLogged={isUserLogged} />} />
-				<Route path="Text/:textId" element={<TextPage isUserLogged={isUserLogged} user={user} />} />
-				<Route path="/:userLogin" element={<Profile user={user} />} />
+				<Route path='About' element={<About />} />
+				<Route path='Login' element={<LoginForm loggedIn={loggedIn} />} />
+				<Route path='/' element={<SearchText isUserLogged={isUserLogged} />} />
+				<Route path='Text/:textId' element={<TextPage isUserLogged={isUserLogged} user={user} />} />
+				<Route path='/:userLogin' element={<Profile user={user} />} />
 				<Route
-					path="*"
+					path='*'
 					element={
 						<main style={{ padding: '1rem' }}>
 							<p>There's nothing here!</p>
 						</main>
 					}
 				/>
-				<Route path="AddText" element={<AddText />} />
+				<Route path='AddText' element={<AddText user={user} />} />
 			</Routes>
 		</React.Fragment>
-	);
-};
+	)
+}
 
-export default App;
+export default App

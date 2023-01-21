@@ -77,7 +77,7 @@ namespace mingielewicz_inzynierka.Controllers
                 return BadRequest(new { message = "Invalid login or password" });
             }
 
-            var jwt = _jwtService.Generate(user.idUser);
+            var jwt = _jwtService.Generate(user.id);
             Response.Cookies.Append("jwt", jwt, new CookieOptions
             {
                 HttpOnly = true,

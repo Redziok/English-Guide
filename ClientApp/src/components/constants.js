@@ -15,6 +15,14 @@ export const createToast = Swal.mixin({
 	},
 })
 
+export const languages = [
+	{ value: 'Polish', label: 'Polish' },
+	{ value: 'English', label: 'English' },
+	{ value: 'German', label: 'German' },
+	{ value: 'Russian', label: 'Russian' },
+	{ value: 'Spanish', label: 'Spanish' },
+]
+
 export const customStyles = {
 	singleValue: (provided, { data }) => ({
 		...provided,
@@ -60,5 +68,6 @@ export const customStyles = {
 	}),
 }
 
+//export const API_CALL = 'api'
 export const API_CALL = 'https://localhost:7232/api'
 //export const API_CALL = 'https://mingielewicz-inzynierka.onrender.com/api';

@@ -30,13 +30,17 @@ namespace mingielewicz_inzynierka.Controllers
 
             var translations = await _context.Translations
                                                           .Include(p => p.user)
+                                                          .Include(p => p.text)
                                                           .Select(p => 
                                                           new TranslationDto
                                                           {
-                                                              idTranslation = p.idTranslation,
+                                                              id = p.id,
                                                               translatedText = p.translatedText,
-                                                              translationLanguage = p.translationLanguage,
+                                                              language = p.language,
+                                                              sectionId = p.sectionId,
                                                               idText = p.idText,
+                                                              title = p.text.title ?? String.Empty,
+                                                              textLanguage = p.text.language ?? String.Empty,
                                                               idUser = p.idUser,
                                                               login = p.user.login ?? String.Empty
                                                           }).ToListAsync();
@@ -45,23 +49,27 @@ namespace mingielewicz_inzynierka.Controllers
         }
 
         // GET: api/Translation/text=5
-        [HttpGet("text={id}")]
-        public async Task<ActionResult<List<TranslationDto>>> GetTranslationByTextId(int id)
+        [HttpGet("text={id}/language={language}")]
+        public async Task<ActionResult<List<TranslationDto>>> GetTranslationByTextId(int id, string language)
         {
             if (_context.Translations == null)
             {
                 return NotFound();
             }
             var translation = await _context.Translations
-                                                         .Where(p => p.idText == id)
+                                                         .Where(p => p.idText == id && p.language == language)
                                                          .Include(p => p.user)
+                                                         .Include(p => p.text)
                                                          .Select(p => 
                                                          new TranslationDto
                                                          {
-                                                             idTranslation = p.idTranslation,
+                                                             id = p.id,
                                                              translatedText = p.translatedText,
-                                                             translationLanguage = p.translationLanguage,
+                                                             language = p.language,
+                                                             sectionId = p.sectionId,
                                                              idText = p.idText,
+                                                             title = p.text.title ?? String.Empty,
+                                                             textLanguage = p.text.language ?? String.Empty,
                                                              idUser = p.idUser,
                                                              login = p.user.login ?? String.Empty
                                                          })
@@ -85,13 +93,17 @@ namespace mingielewicz_inzynierka.Controllers
             var translation = await _context.Translations
                                                          .Where(p => p.idUser == id)
                                                          .Include(p => p.user)
+                                                         .Include(p => p.text)
                                                          .Select(p =>
                                                          new TranslationDto
                                                          {
-                                                             idTranslation = p.idTranslation,
+                                                             id = p.id,
                                                              translatedText = p.translatedText,
-                                                             translationLanguage = p.translationLanguage,
+                                                             language = p.language,
+                                                             sectionId = p.sectionId,
                                                              idText = p.idText,
+                                                             title = p.text.title ?? String.Empty,
+                                                             textLanguage = p.text.language ?? String.Empty,
                                                              idUser = p.idUser
                                                          })
                                                          .ToListAsync();
@@ -106,13 +118,14 @@ namespace mingielewicz_inzynierka.Controllers
         // POST: api/Translation
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TranslationDto>> PostTranslation([FromForm] string translatedText, [FromForm] string translationLanguage, [FromForm] int idText, [FromForm] int idUser)
+        public async Task<ActionResult<TranslationDto>> PostTranslation([FromForm] string translatedText, [FromForm] string language, [FromForm] int idText, [FromForm] int idUser, [FromForm] int sectionId)
         {
             var translations = new Translation();
             translations.translatedText = translatedText;
-            translations.translationLanguage = translationLanguage;
+            translations.language = language;
             translations.idText = idText;
             translations.idUser = idUser;
+            translations.sectionId = sectionId;
 
             if (_context.Translations == null)
             {
@@ -121,23 +134,24 @@ namespace mingielewicz_inzynierka.Controllers
             _context.Translations.Add(translations);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTranslations", new { id = translations.idTranslation }, translations);
+            return CreatedAtAction("GetTranslations", new { id = translations.id }, translations);
         }
 
         // PUT: api/Translation/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> putTranslation(int id, [FromForm] string translatedText, [FromForm] string translationLanguage, [FromForm] int idText, [FromForm] int idUser)
+        public async Task<IActionResult> putTranslation(int id, [FromForm] string translatedText, [FromForm] string language, [FromForm] int idText, [FromForm] int idUser, [FromForm] int sectionId)
         {
-            var translations = _context.Translations.FirstOrDefault(p => p.idTranslation == id);
-            if (id != translations.idTranslation)
+            var translations = _context.Translations.FirstOrDefault(p => p.id == id);
+            if (id != translations.id)
             {
                 return BadRequest();
             }
             translations.translatedText = translatedText;
-            translations.translationLanguage = translationLanguage;
+            translations.language = language;
             translations.idText = idText;
             translations.idUser = idUser;
+            translations.sectionId = sectionId;
 
 
             _context.Entry(translations).State = EntityState.Modified;
@@ -182,7 +196,7 @@ namespace mingielewicz_inzynierka.Controllers
 
         private bool TranslationExists(int id)
         {
-            return (_context.Translations?.Any(e => e.idTranslation == id)).GetValueOrDefault();
+            return (_context.Translations?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

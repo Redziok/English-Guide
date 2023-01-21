@@ -31,56 +31,64 @@ namespace mingielewicz_inzynierka.Controllers
             return rating;
         }
 
-        [HttpGet("text={id}")]
-        public async Task<ActionResult<List<RatingDto>>> GetRatingsByTextId(int id)
+        [HttpGet("text={id}/language={language}/section={section}")]
+        public async Task<ActionResult<RatingDto>> GetTranslationsRating(int id, string language, int section)
         {
             if (_context.Ratings == null)
             {
                 return NotFound();
             }
             var ratings = await _context.Ratings
-                                                .Where(p => p.idText == id)
+                                                .Where(p => p.idText == id && p.translation.language == language && p.translation.sectionId == section)
                                                 .Include(p => p.translation)
-                                                .GroupBy(p => new { p.idTranslation, p.translation.translationLanguage, p.idText })
+                                                .GroupBy(p => new { p.idTranslation, p.translation.language, p.idText })
                                                 .Select(p =>
                                                 new RatingDto
                                                 {
                                                     idText = p.Key.idText,
                                                     idTranslation = p.Key.idTranslation,
-                                                    translationLanguage = p.Key.translationLanguage,
-                                                    ratingValue = p.Sum(i => i.ratingValue),
-                                                }).ToListAsync();
+                                                    language = p.Key.language,
+                                                    rating = p.Sum(i => i.rating),
+                                                }).FirstOrDefaultAsync();
 
             if (ratings == null)
             {
-                return NotFound();
+                RatingDto temp = new RatingDto
+                {
+                    rating = 0,
+                };
+                return temp;
             }
             return ratings;
         }
 
-        [HttpGet("text={idText}/user={idUser}")]
-        public async Task<ActionResult<List<RatingDto>>> GetRatingsByUser(int idText, int idUser)
+        [HttpGet("text={id}/language={language}/section={section}/user={idUser}")]
+        public async Task<ActionResult<RatingDto>> GetRatingsByUser(int id, string language, int section, int idUser)
         {
             if (_context.Ratings == null)
             {
                 return NotFound();
             }
             var ratings = await _context.Ratings
-                                                .Where(p => p.idText == idText && p.idUser == idUser)
+                                                .Where(p => p.idText == id && p.translation.language == language && p.translation.sectionId == section && p.idUser == idUser)
                                                 .Include(p => p.translation)
                                                 .Select(p => 
                                                 new RatingDto
                                                 {
                                                     idTranslation = p.idTranslation,
-                                                    ratingValue = p.ratingValue,
+                                                    rating = p.rating,
                                                     idText = p.idText,
                                                     idUser = p.idUser,
-                                                    translationLanguage = p.translation.translationLanguage ?? String.Empty
-                                                }).ToListAsync();
+                                                    language = p.translation.language ?? String.Empty
+                                                }).FirstOrDefaultAsync();
 
             if (ratings == null)
             {
-                return NotFound();
+                RatingDto temp = new RatingDto
+                {
+                    rating = 0,
+                };
+                return temp;
             }
             return ratings;
         }
@@ -88,13 +96,13 @@ namespace mingielewicz_inzynierka.Controllers
         // POST: api/Rating
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Rating>> PostOrUpdateRating([FromForm] int ratingValue,[FromForm] int idUser,[FromForm] int idTranslation,[FromForm] int idText)
+        public async Task<ActionResult<Rating>> PostOrUpdateRating([FromForm] int rating,[FromForm] int idUser,[FromForm] int idTranslation,[FromForm] int idText)
         {
-            var rating = new Rating();
-            rating.ratingValue = ratingValue;
-            rating.idUser = idUser;
-            rating.idTranslation = idTranslation;
-            rating.idText = idText;
+            var ratings = new Rating();
+            ratings.rating = rating;
+            ratings.idUser = idUser;
+            ratings.idTranslation = idTranslation;
+            ratings.idText = idText;
 
             if (_context.Ratings == null)
             {
@@ -103,15 +111,15 @@ namespace mingielewicz_inzynierka.Controllers
             var existingRating = _context.Ratings.Where(p => p.idUser == idUser && p.idTranslation == idTranslation).FirstOrDefault();
             if (existingRating != null)
             {
-                existingRating.ratingValue = ratingValue;
+                existingRating.rating = rating;
                 await _context.SaveChangesAsync();
-                return CreatedAtAction("GetRatings", new { id = existingRating.idRating }, existingRating);
+                return CreatedAtAction("GetRatings", new { id = existingRating.id }, existingRating);
             }
             else
             {
-                _context.Ratings.Add(rating);
+                _context.Ratings.Add(ratings);
                 await _context.SaveChangesAsync();
-                return CreatedAtAction("GetRatings", new { id = rating.idRating }, rating);
+                return CreatedAtAction("GetRatings", new { id = ratings.id }, rating);
             }
         }
     }

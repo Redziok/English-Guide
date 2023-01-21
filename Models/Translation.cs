@@ -6,9 +6,10 @@ namespace mingielewicz_inzynierka.Models
     public class Translation
     {
         [Key]
-        public int idTranslation { get; set; }
+        public int id { get; set; }
+        public int sectionId { get; set; }
         public string translatedText { get; set; }
-        public string translationLanguage { get; set; }
+        public string language { get; set; }
         public int idText { get; set; }
         [ForeignKey("idText")]
         public Text text { get; set; }

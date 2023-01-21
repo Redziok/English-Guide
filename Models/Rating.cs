@@ -6,9 +6,9 @@ namespace mingielewicz_inzynierka.Models
     public class Rating
     {
         [Key]
-        public int idRating { get; set; }
+        public int id { get; set; }
         [Range(-1, 1)]
-        public int ratingValue { get; set; }
+        public int rating { get; set; }
         public int idUser { get; set; }
         [ForeignKey("idUser")]
         public User user { get; set; }

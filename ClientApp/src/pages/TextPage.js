@@ -1,279 +1,156 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
 import '../styles/TextPage.css'
 import Select from 'react-select'
-import { customStyles, API_CALL, createToast } from '../components/constants'
+import { customStyles, API_CALL, languages, createToast } from '../components/constants'
+import TranslationPopup from './TranslationPopup'
+import { useParams } from 'react-router-dom'
 
-function withParams(Component) {
-	return function (props) {
-		return <Component {...props} params={useParams()} />
-	}
-}
+const TextPage = ({ user, isUserLogged }) => {
+	const { textId } = useParams()
+	const [textPageData, setTextPageData] = useState({
+		textPage: {},
+		languagesArray: [],
+		textPageSplitText: [],
+	})
+	const [translationsData, setTranslationsData] = useState({
+		translations: {},
+		chosenTranslation: [],
+	})
+	const [chosenLanguage, setChosenLanguage] = useState([])
+	const [isPopupVisible, setIsPopupVisible] = useState(false)
+	const [popupPosition, setPopupPosition] = useState(0)
+	const [sectionId, setSectionId] = useState(null)
 
-class TextPage extends Component {
-	constructor(props) {
-		super(props)
-
-		this.state = {
-			textPage: [],
-			textPageSplitText: [],
-			text: '',
-			language: null,
-			translation: [],
-			translationElements: [],
-			languagesArray: [
-				{ value: 'Polish', label: 'Polish' },
-				{ value: 'English', label: 'English' },
-				{ value: 'German', label: 'German' },
-				{ value: 'Russian', label: 'Russian' },
-				{ value: 'Spanish', label: 'Spanish' },
-			],
-			isFormActive: false,
-			textPageRatings: [],
-			translationRating: 0,
-			userRatings: [],
-			userTranslationRating: [],
-		}
-	}
-
-	componentDidMount() {
-		this.fetchTranslation()
-		this.fetchRatings()
-
-		axios
-			.get(`${API_CALL}/Text/${this.props.params.textId}`)
-			.then((res) => {
-				this.setState({
+	useEffect(() => {
+		const fetchTexts = async () => {
+			await axios.get(`${API_CALL}/Text/${textId}`).then((res) => {
+				setTextPageData({
 					textPage: res.data,
-					languagesArray: this.state.languagesArray.filter((item) => item.value !== res.data.textLanguage),
+					languagesArray: languages.filter((item) => item.value !== res.data.language),
 					textPageSplitText: res.data.text.split(/\r?\n\r?\n/),
 				})
 			})
-			.catch((err) => {
-				console.log(err)
-			})
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-		if (this.props.user?.idUser && prevState.textPageRatings?.length != this.state.textPageRatings?.length) {
-			axios
-				.get(`${API_CALL}/Rating/text=${this.props.params.textId}/user=${this.props.user.idUser}`)
-				.then((res) => {
-					this.setState({ userRatings: res.data })
-				})
-				.catch((err) => {
-					console.log(err)
-				})
 		}
-		if (prevState.userTranslationRating?.ratingValue != this.state.userTranslationRating?.ratingValue) this.fetchRatings()
+		fetchTexts()
+	}, [])
 
-		if (this.state.translationRating == null) this.setState({ translationRating: 0 })
-	}
-
-	fetchRatings = () => {
-		axios
-			.get(`${API_CALL}/Rating/text=${this.props.params.textId}`)
-			.then((res) => {
-				this.setState({ textPageRatings: res.data })
-			})
-			.catch((err) => {
-				console.log(err)
-			})
-	}
-
-	fetchTranslation = () => {
-		axios
-			.get(`${API_CALL}/Translation/text=${this.props.params.textId}`)
-			.then((res) => {
-				this.setState({
-					translation: res.data,
+	useEffect(() => {
+		const fetchTranslations = async () => {
+			await axios.get(`${API_CALL}/Translation/text=${textId}/language=${chosenLanguage?.value}`).then((res) => {
+				setTranslationsData({
+					translations: res.data,
 				})
+				addTranslations(res.data)
 			})
-			.catch((err) => {
-				console.log(err)
-			})
-	}
+		}
+		fetchTranslations()
+	}, [chosenLanguage?.value])
 
-	changeHandler = (e) => {
-		this.setState({ [e.target.name]: e.target.value })
-	}
-
-	handleIsFormActive = () => this.setState({ isFormActive: !this.state.isFormActive })
-
-	languageHandler = (language) => {
-		this.setState({
-			language,
-			translationElements: this.state.translation.find((e) => e.translationLanguage === language.value),
-			translationRating: this.state.textPageRatings.find((e) => e.translationLanguage === language.value)?.ratingValue,
-			userTranslationRating: this.state.userRatings.find((e) => e.translationLanguage === language.value),
-			isFormActive: false,
+	const addTranslations = (data) => {
+		for (const div of document.querySelectorAll('.has-translation')) {
+			if (div) div.className = 'text-containers empty'
+		}
+		data.map((translation) => {
+			const element = document.querySelector(`#text-container-section-${translation.sectionId}`)
+			if (element) {
+				editTextContainer('translated', translation.sectionId)
+			}
 		})
 	}
 
-	handleLike = (value) => {
-		if (!this.props.isUserLogged) {
+	const languageHandler = (language) => {
+		setChosenLanguage(language)
+	}
+
+	const editTextContainer = (action, section) => {
+		switch (action) {
+			case 'empty':
+				document.querySelector(`#text-container-section-${section}`).className = 'text-containers empty'
+				break
+			case 'translating':
+				document.querySelector(`#text-container-section-${section}`).classList.add('is-translating')
+				break
+			case 'translated':
+				document.querySelector(`#text-container-section-${section}`).className = 'text-containers has-translation'
+		}
+	}
+
+	const handleTranslation = (event) => {
+		const target = event.target
+		const section = target.getAttribute('section-key')
+		const translating = document.querySelector('.is-translating')
+		if (translating) translating.classList.remove('is-translating')
+		if (!target.classList.contains('text-containers')) {
+			setIsPopupVisible(false)
+			return
+		}
+		if (!chosenLanguage?.value) {
 			createToast.fire({
 				icon: 'error',
-				text: 'Must be logged to rate',
+				text: 'Language not chosen',
 			})
 			return
 		}
-		const like = document.querySelector('.fa-thumbs-up')
-		const dislike = document.querySelector('.fa-thumbs-down')
-		if (value === 1) {
-			!like.classList.contains('reaction-input-chosen') && like.classList.add('reaction-input-chosen')
-			dislike.classList.remove('reaction-input-chosen')
-		}
-		if (value === -1) {
-			!dislike.classList.contains('reaction-input-chosen') && dislike.classList.add('reaction-input-chosen')
-			like.classList.remove('reaction-input-chosen')
-		} else {
-			dislike.classList.remove('reaction-input-chosen')
-			like.classList.remove('reaction-input-chosen')
-		}
-
-		const formDataLike = new FormData()
-		formDataLike.append('ratingValue', value)
-		formDataLike.append('idTranslation', this.state.translationElements.idTranslation)
-		formDataLike.append('idText', this.props.params.textId)
-		formDataLike.append('idUser', this.props.user.idUser)
-
-		axios
-			.post(`${API_CALL}/Rating`, formDataLike)
-			.then((res) => {
-				this.setState({ userTranslationRating: res.data })
-				this.setState({
-					translationRating:
-						this.state.userTranslationRating == undefined ? this.state.translationRating + value : this.state.translationRating + 2 * value,
-				})
-			})
-			.catch((err) => {
-				console.log(err)
-			})
+		setSectionId(section)
+		setIsPopupVisible(true)
+		editTextContainer('translating', section)
+		section === (textPageData?.textPageSplitText?.length - 1).toString() && parseInt(section) > 3
+			? setPopupPosition(target.offsetTop - 300)
+			: setPopupPosition(target.offsetTop - 100)
 	}
 
-	submitHandler = (e) => {
-		e.preventDefault()
-		const formData = new FormData()
-		formData.append('translatedText', this.state.text)
-		formData.append('translationLanguage', this.state.language.value)
-		formData.append('idText', this.props.params.textId)
-		formData.append('idUser', this.props.user.idUser)
-		axios
-			.post(`${API_CALL}/Translation`, formData)
-			.then((res) => {
-				res.data.login = this.props.user.login
-				this.setState({
-					isFormActive: false,
-					translationElements: res.data,
-				})
-				this.fetchTranslation()
-			})
-			.catch((err) => {
-				console.log(err)
-			})
-	}
-
-	handleTranslation = (event) => {
-		console.log(event.target.getAttribute('section-key'))
-	}
-
-	render() {
-		return (
-			<div className='text-page-container'>
-				<div className='text-page-preview'>
-					<p className='text-page-preview-user'>
-						Posted by : <em>{this.state.textPage.login}</em>
-					</p>
-					<div className='text-page-preview-title'>Title: {this.state.textPage.title}</div>
-					<p className='text-page-preview-language'>{this.state.textPage.textLanguage}</p>
-					<hr />
+	return (
+		<div className='text-page-container'>
+			<div className='text-page-preview' onClick={handleTranslation}>
+				<div className='text-page-header'>
+					<div className='text-page-header-info'>
+						<p className='text-page-preview-user'>
+							Posted by : <em>{textPageData?.textPage?.login}</em>
+						</p>
+						<div className='text-page-preview-title'>Title: {textPageData?.textPage?.title}</div>
+						<p className='text-page-preview-language'>{textPageData?.textPage?.language}</p>
+					</div>
+					<div>
+						<Select
+							styles={customStyles}
+							className='language-choose-container-add-translation'
+							value={chosenLanguage}
+							onChange={languageHandler}
+							options={textPageData?.languagesArray}
+							placeholder='Choose language'
+						/>
+					</div>
+				</div>
+				<hr />
+				{textPageData?.textPageSplitText?.length ? (
 					<div className='text-page-preview-text'>
-						{this.state.textPageSplitText.map((section, idx) => (
-							<p
-								id={`text-container-section-${idx}`}
-								className='text-containers-empty'
-								key={idx}
-								section-key={idx}
-								onMouseDown={this.handleTranslation}>
+						{textPageData?.textPageSplitText.map((section, idx) => (
+							<p id={`text-container-section-${idx}`} className='text-containers empty' key={idx} section-key={idx}>
 								{section}
 							</p>
 						))}
 					</div>
-				</div>
-				<div className='text-page-translation'>
-					<form onSubmit={this.submitHandler}>
-						<Select
-							styles={customStyles}
-							className='language-choose-container-add-translation'
-							value={this.state.language}
-							onChange={this.languageHandler}
-							options={this.state.languagesArray}
-							placeholder='Choose language'
-						/>
-						{this.state.isFormActive ? (
-							<div className='text-submit-container' id='text-submit-container-id'>
-								<textarea type='text' className='text-translation' name='text' value={this.state.text} onChange={this.changeHandler} required />
-								<div className='options-container-translation'>
-									<button className='submit' type='submit'>
-										Submit
-									</button>
-								</div>
-							</div>
-						) : (
-							<div
-								className='text-empty-container'
-								id='text-empty-container-id'
-								style={this.state.translationElements !== undefined ? { display: 'none' } : { display: 'block' }}>
-								{this.props.isUserLogged ? (
-									<>
-										<h3>Add your own translation</h3>
-										<button type='button' onClick={this.handleIsFormActive}>
-											ADD TRANSLATION
-										</button>
-									</>
-								) : (
-									<>
-										<h3>Must be logged to add translation</h3>
-										<button type='button' onClick={this.handleIsFormActive} disabled>
-											ADD TRANSLATION
-										</button>
-									</>
-								)}
-							</div>
-						)}
-					</form>
-					{this.state.translationElements !== undefined && (
-						<div className='translation-text-preview' style={this.state.language === null ? { display: 'none' } : { display: 'block' }}>
-							<p className='text-page-preview-user'>
-								Posted by : <em>{this.state.translationElements?.login}</em>
-							</p>
-							<div className='translation-page-preview-text'>{this.state.translationElements?.translatedText}</div>
-							<div className='translation-reaction-container'>
-								<i
-									className={
-										this.state.userTranslationRating?.ratingValue === 1 ? 'fa fa-thumbs-up reaction-input-chosen' : 'fa fa-thumbs-up reaction-input'
-									}
-									onClick={() => this.handleLike(1)}
-								/>
-								<p className='like-count-container'>
-									{this.state.translationRating > 0 ? `+${this.state.translationRating}` : this.state.translationRating}
-								</p>
-								<i
-									className={
-										this.state.userTranslationRating?.ratingValue === -1
-											? 'fa fa-thumbs-down fa-flip-horizontal reaction-input-chosen'
-											: 'fa fa-thumbs-down fa-flip-horizontal reaction-input'
-									}
-									onClick={() => this.handleLike(-1)}
-								/>
-							</div>
-						</div>
-					)}
-				</div>
+				) : (
+					<div className='loader-container'>
+						<div className='lds-dual-ring' />
+					</div>
+				)}
 			</div>
-		)
-	}
+			{isPopupVisible && (
+				<TranslationPopup
+					user={user}
+					isUserLogged={isUserLogged}
+					textOwner={textPageData?.textPage?.idUser}
+					chosenLanguage={chosenLanguage}
+					popupPosition={popupPosition}
+					sectionId={sectionId}
+					translationsData={translationsData}
+					setTranslationsData={setTranslationsData}
+				/>
+			)}
+		</div>
+	)
 }
-export default withParams(TextPage)
+
+export default TextPage

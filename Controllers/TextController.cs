@@ -31,13 +31,13 @@ namespace InzynierkaBackend.Controllers
                                            .Select(p =>
                                            new TextDto
                                            {
-                                               idText = p.idText,
+                                               id = p.id,
                                                title = p.title,
                                                text = p.text,
-                                               textLanguage = p.textLanguage,
+                                               language = p.language,
                                                idUser = p.idUser,
                                                login = p.user.login ?? String.Empty
-                                           }).ToListAsync();
+                                           }).OrderByDescending(p => p.id).ToListAsync();
 
             return text;
         }
@@ -51,18 +51,18 @@ namespace InzynierkaBackend.Controllers
                 return NotFound();
             }
             var text = await _context.Texts
-                                    .Where(p => p.idText == id)
+                                    .Where(p => p.id == id)
                                     .Include(p => p.user)
                                     .Select(p =>
                                     new TextDto
                                     {
-                                        idText = p.idText,
+                                        id = p.id,
                                         title = p.title,
                                         text = p.text,
-                                        textLanguage = p.textLanguage,
+                                        language = p.language,
                                         idUser = p.idUser,
                                         login = p.user.login ?? String.Empty
-                                    }).FirstOrDefaultAsync(p => p.idText == id);
+                                    }).FirstOrDefaultAsync(p => p.id == id);
 
             if (text == null)
             {
@@ -85,10 +85,10 @@ namespace InzynierkaBackend.Controllers
                                     .Select(p =>
                                     new TextDto
                                     {
-                                        idText = p.idText,
+                                        id = p.id,
                                         title = p.title,
                                         text = p.text,
-                                        textLanguage = p.textLanguage,
+                                        language = p.language,
                                         idUser = p.idUser,
                                         login = p.user.login ?? String.Empty
                                     }).ToListAsync();
@@ -103,12 +103,12 @@ namespace InzynierkaBackend.Controllers
         // POST: api/Text
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Text>> PostText([FromForm] string title, [FromForm] string text, [FromForm] string textLanguage, [FromForm] int idUser)
+        public async Task<ActionResult<Text>> PostText([FromForm] string title, [FromForm] string text, [FromForm] string language, [FromForm] int idUser)
         {
             var texts = new Text();
             texts.title = title;
             texts.text = text;
-            texts.textLanguage = textLanguage;
+            texts.language = language;
             texts.idUser = idUser;
 
             if (_context.Texts == null)
@@ -118,7 +118,7 @@ namespace InzynierkaBackend.Controllers
             _context.Texts.Add(texts);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTexts", new { id = texts.idText }, texts);
+            return CreatedAtAction("GetTexts", new { id = texts.id }, texts);
         }
 
         // PUT: api/Text/5
@@ -126,12 +126,12 @@ namespace InzynierkaBackend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> putText(int id, [FromForm] string title, [FromForm] string text, [FromForm] string textLanguage, [FromForm] int idUser)
         {
-            var texts = _context.Texts.FirstOrDefault(p => p.idText == id);
-            if (id != texts.idText)
+            var texts = _context.Texts.FirstOrDefault(p => p.id == id);
+            if (id != texts.id)
             {
                 return BadRequest();
             }
-            texts.idText = id;
+            texts.id = id;
             texts.title = title;
             texts.text = text;
             texts.idUser = idUser;
@@ -179,7 +179,7 @@ namespace InzynierkaBackend.Controllers
 
         private bool TextExists(int id)
         {
-            return (_context.Texts?.Any(e => e.idText == id)).GetValueOrDefault();
+            return (_context.Texts?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

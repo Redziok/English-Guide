@@ -10,7 +10,7 @@ namespace mingielewicz_inzynierka.Data
             builder.Entity<User>(entity => {
                 entity.HasIndex(e => e.login).IsUnique();
                 entity.HasIndex(e => e.email).IsUnique();
-                entity.Property(e => e.admin).HasDefaultValue(false);
+                entity.Property(e => e.isAdmin).HasDefaultValue(false);
             });
             builder.Entity<Rating>(entity =>
             {
@@ -19,18 +19,18 @@ namespace mingielewicz_inzynierka.Data
 
             builder.Entity<Translation>(entity =>
             {
-                entity.HasIndex(e => new { e.translationLanguage, e.idText }).IsUnique();
+                entity.HasIndex(e => new { e.sectionId, e.language, e.idText }).IsUnique();
             });
 
             builder.Entity<User>(entity =>
             {
                 entity.HasData(new User
                 {
-                    idUser = 1,
+                    id = 1,
                     login = "Redziok",
                     email = "Redziok@wp.pl",
                     password = BCrypt.Net.BCrypt.HashPassword("Redziok"),
-                    admin = true,
+                    isAdmin = true,
                 });
             });
         }
