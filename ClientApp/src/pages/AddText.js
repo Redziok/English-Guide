@@ -31,6 +31,17 @@ class AddText extends Component {
 		this.setState({ language })
 	}
 
+	postText = () => {
+		const formData = new FormData()
+		formData.append('title', this.state.title)
+		formData.append('text', this.state.text)
+		formData.append('idUser', this.props.user?.id)
+		formData.append('language', this.state.language?.value)
+		axios.post(`${API_CALL}/Text`, formData).then((res) => {
+			this.props.params(`/Text/${res.data.id}`)
+		})
+	}
+
 	submitHandler = (e) => {
 		e.preventDefault()
 		if (!this.state.language?.value) {
@@ -40,14 +51,34 @@ class AddText extends Component {
 			})
 			return
 		}
-		const formData = new FormData()
-		formData.append('title', this.state.title)
-		formData.append('text', this.state.text)
-		formData.append('idUser', this.props.user?.id)
-		formData.append('language', this.state.language?.value)
-		axios.post(`${API_CALL}/Text`, formData).then((res) => {
-			this.props.params(`/Text/${res.data.id}`)
-		})
+		let textAreas = this.state.text.split(/\r?\n\r?\n/)
+		if (textAreas.length !== 1) {
+			this.postText()
+		} else {
+			createToast
+				.fire({
+					showConfirmButton: true,
+					customClass: {
+						confirmButton: 'btn btn-success',
+						cancelButton: 'btn btn-danger',
+					},
+					buttonsStyling: false,
+					title: 'Your text contains only one section!',
+					text: 'To fix it go back and add spaces between paragraphs',
+					icon: 'question',
+					showCancelButton: true,
+					confirmButtonText: 'Add it anyway',
+					cancelButtonText: 'Let me fix it',
+					reverseButtons: true,
+					position: 'center',
+					width: '400px',
+					timer: 0,
+				})
+				.then((result) => {
+					if (result.isConfirmed) this.postText()
+					else if (result.isDismissed) return
+				})
+		}
 	}
 
 	render() {
@@ -62,6 +93,7 @@ class AddText extends Component {
 						<div className='text-container'>
 							<textarea type='text' placeholder='Text' className='text' name='text' value={text} onChange={this.changeHandler} required />
 						</div>
+						<p className='text-alert'>Leave a space between paragraph to split the text into sections and make it easier to translate! </p>
 						<Select
 							styles={customStyles}
 							className='language-choose-container-add-text'

@@ -26,11 +26,13 @@
 .text {
 	color: white;
 	width: 100%;
-	height: 100%;
-	margin-bottom: 1rem;
 	border-radius: 0.4rem;
 	padding-left: 1rem;
 	background-color: var(--background);
+}
+
+.title-container {
+	margin-bottom: 1rem;
 }
 
 .text-container textarea {
@@ -68,4 +70,15 @@ h3 {
 
 .button-container {
 	text-align: right;
+}
+
+.text-alert {
+	color: red;
+	text-align: center;
+	font-size: 0.75rem;
+	margin: 0;
+}
+
+.text-alert:hover {
+	font-size: 1.2rem;
 }

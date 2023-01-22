@@ -119,7 +119,7 @@ namespace mingielewicz_inzynierka.Controllers
             {
                 _context.Ratings.Add(ratings);
                 await _context.SaveChangesAsync();
-                return CreatedAtAction("GetRatings", new { id = ratings.id }, rating);
+                return CreatedAtAction("GetRatings", new { id = ratings.id }, ratings);
             }
         }
     }

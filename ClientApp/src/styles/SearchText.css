@@ -3,6 +3,12 @@
 	width: 100%;
 }
 
+.search-text-container h1 {
+	color: white;
+	text-align: center;
+	margin-top: 1rem !important;
+}
+
 .search-text-header {
 	font-size: 20px;
 	height: calc(100% - 80px);

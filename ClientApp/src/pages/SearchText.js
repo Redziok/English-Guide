@@ -5,16 +5,26 @@ import { Link, useNavigate } from 'react-router-dom'
 import { API_CALL } from '../components/constants'
 
 function SearchText(props) {
-	const [texts, setTexts] = useState([])
+	const [fetchTexts, setFetchTexts] = useState({
+		texts: [],
+		isTextFetched: false,
+	})
 	const navigate = useNavigate()
 
 	useEffect(() => {
 		axios
 			.get(`${API_CALL}/Text`)
 			.then((res) => {
-				setTexts(res.data)
+				setFetchTexts({
+					texts: res.data,
+					isTextFetched: true,
+				})
 			})
-			.catch((err) => {})
+			.catch((err) => {
+				setFetchTexts({
+					isTextFetched: false,
+				})
+			})
 	}, [])
 
 	const onTextClick = () => {
@@ -23,26 +33,30 @@ function SearchText(props) {
 
 	return (
 		<div className='search-text-container'>
-			{texts.length ? (
+			{fetchTexts.isTextFetched ? (
 				<>
 					{props.isUserLogged && (
 						<div className='add-text-input-container'>
 							<input className='add-text' type='text' placeholder='Add your own text' onClick={onTextClick} />
 						</div>
 					)}
-					<div className='search-text-header'>
-						{texts.map((text) => (
-							<Link to={`/Text/${text.id}`} key={text.id}>
-								<div className='text-list-element' key={text.id}>
-									<div className='text-list-title-container'>
-										{text.title}
-										<p className='text-page-preview-language'>{text.language}</p>
+					{fetchTexts.texts.length != 0 ? (
+						<div className='search-text-header'>
+							{fetchTexts.texts.map((text) => (
+								<Link to={`/Text/${text.id}`} key={text.id}>
+									<div className='text-list-element' key={text.id}>
+										<div className='text-list-title-container'>
+											{text.title}
+											<p className='text-page-preview-language'>{text.language}</p>
+										</div>
+										<p className='text-list-user'>by {text.login}</p>
 									</div>
-									<p className='text-list-user'>by {text.login}</p>
-								</div>
-							</Link>
-						))}
-					</div>
+								</Link>
+							))}
+						</div>
+					) : (
+						<h1>There are no texts, {props.isUserLogged ? 'add your own' : 'login and add your own'}</h1>
+					)}
 				</>
 			) : (
 				<div className='loader-container'>

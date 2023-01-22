@@ -9,15 +9,12 @@
 	padding: 1.25rem 2.4rem 2rem 2.4rem;
 	background-color: rgb(24, 26, 27);
 	font: 100 1.125rem / 1.5 Programme, Arial, sans-serif;
-	width: 50%;
 	color: white;
 }
 
 .text-page-translation {
 	position: absolute;
-	left: 1000px;
 	border-radius: 1.5rem;
-	margin: 2rem 2rem 1rem 2rem;
 	padding: 1.25rem 2.4rem 2rem 2.4rem;
 	background-color: rgb(16, 17, 18);
 	font: 100 1.125rem / 1.5 Programme, Arial, sans-serif;
@@ -33,7 +30,7 @@
 	min-height: 15rem;
 	height: 80%;
 	width: 100%;
-	margin-top: 2rem;
+	margin-top: 0.5rem;
 	background-color: rgb(54, 54, 54);
 	color: rgba(208, 204, 198, 1);
 	text-align: left;
@@ -59,7 +56,7 @@
 	text-align: left;
 	min-height: 70vh;
 	height: 80%;
-	width: 40vw;
+	min-width: 40vw;
 	color: rgb(255, 255, 255);
 	white-space: break-spaces;
 }
@@ -147,6 +144,7 @@
 .is-translating {
 	background-color: rgb(151, 38, 65) !important;
 	opacity: 1;
+	cursor: auto;
 }
 
 .text-page-header {
@@ -159,6 +157,10 @@
 .text-page-header-info {
 	flex: 2 1;
 	margin-right: 0.5rem;
+}
+
+.text-page-header-info .remove-input {
+	margin: 0.5rem 0 0 0;
 }
 
 .remove-input {

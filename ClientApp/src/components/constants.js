@@ -1,5 +1,17 @@
 import Swal from 'sweetalert2'
 
+//export const API_CALL = 'api'
+export const API_CALL = 'https://localhost:7232/api'
+//export const API_CALL = 'https://mingielewicz-inzynierka.onrender.com/api';
+
+export const languages = [
+	{ value: 'Polish', label: 'Polish' },
+	{ value: 'English', label: 'English' },
+	{ value: 'German', label: 'German' },
+	{ value: 'Russian', label: 'Russian' },
+	{ value: 'Spanish', label: 'Spanish' },
+]
+
 export const createToast = Swal.mixin({
 	toast: true,
 	animation: true,
@@ -14,14 +26,6 @@ export const createToast = Swal.mixin({
 		toast.addEventListener('mouseleave', Swal.resumeTimer)
 	},
 })
-
-export const languages = [
-	{ value: 'Polish', label: 'Polish' },
-	{ value: 'English', label: 'English' },
-	{ value: 'German', label: 'German' },
-	{ value: 'Russian', label: 'Russian' },
-	{ value: 'Spanish', label: 'Spanish' },
-]
 
 export const customStyles = {
 	singleValue: (provided, { data }) => ({
@@ -67,7 +71,3 @@ export const customStyles = {
 		background: isFocused && 'grey',
 	}),
 }
-
-//export const API_CALL = 'api'
-export const API_CALL = 'https://localhost:7232/api'
-//export const API_CALL = 'https://mingielewicz-inzynierka.onrender.com/api';

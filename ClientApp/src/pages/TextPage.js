@@ -4,10 +4,11 @@ import '../styles/TextPage.css'
 import Select from 'react-select'
 import { customStyles, API_CALL, languages, createToast } from '../components/constants'
 import TranslationPopup from './TranslationPopup'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const TextPage = ({ user, isUserLogged }) => {
 	const { textId } = useParams()
+	const navigate = useNavigate()
 	const [textPageData, setTextPageData] = useState({
 		textPage: {},
 		languagesArray: [],
@@ -38,14 +39,43 @@ const TextPage = ({ user, isUserLogged }) => {
 	useEffect(() => {
 		const fetchTranslations = async () => {
 			await axios.get(`${API_CALL}/Translation/text=${textId}/language=${chosenLanguage?.value}`).then((res) => {
-				setTranslationsData({
+				setTranslationsData((prev) => ({
 					translations: res.data,
-				})
+					chosenTranslation: prev.chosenTranslation,
+				}))
 				addTranslations(res.data)
 			})
 		}
 		fetchTranslations()
 	}, [chosenLanguage?.value])
+
+	const removeText = () => {
+		createToast
+			.fire({
+				showConfirmButton: true,
+				customClass: {
+					confirmButton: 'btn btn-success',
+					cancelButton: 'btn btn-danger',
+				},
+				buttonsStyling: false,
+				text: 'Are you sure you want to delete the text?',
+				icon: 'question',
+				showCancelButton: true,
+				confirmButtonText: 'Yes, delete it!',
+				cancelButtonText: 'No, cancel!',
+				reverseButtons: true,
+				position: 'center',
+				width: '400px',
+				timer: 0,
+			})
+			.then((result) => {
+				if (result.isConfirmed) {
+					axios.delete(`${API_CALL}/Text/${textId}`).then((res) => {
+						navigate('/')
+					})
+				} else if (result.isDismissed) return
+			})
+	}
 
 	const addTranslations = (data) => {
 		for (const div of document.querySelectorAll('.has-translation')) {
@@ -59,9 +89,7 @@ const TextPage = ({ user, isUserLogged }) => {
 		})
 	}
 
-	const languageHandler = (language) => {
-		setChosenLanguage(language)
-	}
+	const languageHandler = (language) => setChosenLanguage(language)
 
 	const editTextContainer = (action, section) => {
 		switch (action) {
@@ -110,6 +138,9 @@ const TextPage = ({ user, isUserLogged }) => {
 						</p>
 						<div className='text-page-preview-title'>Title: {textPageData?.textPage?.title}</div>
 						<p className='text-page-preview-language'>{textPageData?.textPage?.language}</p>
+						{(user.id === textPageData?.textPage?.idUser || user.isAdmin) && (
+							<i className='fa fa-trash remove-input' title='remove translation' onClick={removeText} />
+						)}
 					</div>
 					<div>
 						<Select
