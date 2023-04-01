@@ -1,84 +1,57 @@
 .add-text-container {
-	--background: rgb(41, 44, 46);
+   --background: rgb(41, 44, 46);
 
-	color: rgba(208, 204, 198, 1);
-	height: calc(100% - 80px);
-	width: 100%;
+   color: rgba(208, 204, 198, 1);
+   height: calc(100% - 80px);
+   width: 100%;
 }
 
 .add-text-container form {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .add-text-inputs {
-	margin: 2rem 2rem 1rem 2rem;
-	min-height: 100%;
-	width: 50%;
-	background-color: rgb(13, 14, 14);
-	padding: 2rem;
-	border-radius: 1.5rem;
-}
-
-.title,
-.text {
-	color: white;
-	width: 100%;
-	border-radius: 0.4rem;
-	padding-left: 1rem;
-	background-color: var(--background);
+   margin: 2rem 2rem 1rem 2rem;
+   min-height: 100%;
+   width: 50%;
+   background-color: rgb(13, 14, 14);
+   padding: 2rem;
+   border-radius: 1.5rem;
 }
 
 .title-container {
-	margin-bottom: 1rem;
+   margin-bottom: 1rem;
 }
 
 .text-container textarea {
-	min-height: 30vh;
-	height: 80%;
-}
-
-.text {
-	padding-top: 0.5rem;
-}
-
-.title {
-	height: 2.5rem;
-}
-
-.options-container {
-	background-color: var(--background);
-	padding: 1.25rem 2.4rem 0 2.4rem;
-}
-
-.submit,
-.import {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	margin: 0.6rem 1rem 0 0.1rem;
+   min-height: 30vh;
+   height: 80%;
 }
 
 .language-choose-container-add-text {
-	width: 25%;
-	margin-top: 1rem;
+   width: 25%;
+   margin-top: 1rem;
 }
 
 h3 {
-	margin-top: -8px;
+   margin-top: -8px;
 }
 
 .button-container {
-	text-align: right;
+   text-align: right;
+   color: black;
 }
 
 .text-alert {
-	color: red;
-	text-align: center;
-	font-size: 0.75rem;
-	margin: 0;
+   color: red;
+   text-align: center;
+   font-size: 0.75rem;
+   margin: 0;
 }
 
 .text-alert:hover {
-	font-size: 1.2rem;
+   font-size: 1.1rem;
 }

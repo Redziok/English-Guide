@@ -1,199 +1,206 @@
 .text-page-container {
-	width: 100%;
-	display: flex;
+   width: 100%;
+   display: flex;
 }
 
 .text-page-preview {
-	border-radius: 1.5rem;
-	margin: 2rem 2rem 1rem 2rem;
-	padding: 1.25rem 2.4rem 2rem 2.4rem;
-	background-color: rgb(24, 26, 27);
-	font: 100 1.125rem / 1.5 Programme, Arial, sans-serif;
-	color: white;
+   border-radius: 1.5rem;
+   margin: 2rem 2rem 1rem 2rem;
+   padding: 1.25rem 2.4rem 2rem 2.4rem;
+   background-color: rgb(24, 26, 27);
+   font: 100 1.125rem / 1.5 Programme, Arial, sans-serif;
+   color: white;
 }
 
 .text-page-translation {
-	position: absolute;
-	border-radius: 1.5rem;
-	padding: 1.25rem 2.4rem 2rem 2.4rem;
-	background-color: rgb(16, 17, 18);
-	font: 100 1.125rem / 1.5 Programme, Arial, sans-serif;
-	min-width: 10vw;
-	width: 25%;
-	color: white;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+   position: absolute;
+   border-radius: 1.5rem;
+   padding: 1.25rem 2.4rem 2rem 2.4rem;
+   background-color: rgb(16, 17, 18);
+   font: 100 1.125rem / 1.5 Programme, Arial, sans-serif;
+   min-width: min-content;
+   width: 25%;
+   color: white;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 }
 
 .text-translation {
-	min-height: 15rem;
-	height: 80%;
-	width: 100%;
-	margin-top: 0.5rem;
-	background-color: rgb(54, 54, 54);
-	color: rgba(208, 204, 198, 1);
-	text-align: left;
+   min-height: 15rem;
+   height: 80%;
+   width: 100%;
+   margin-top: 0.5rem;
+   background-color: rgb(54, 54, 54);
+   color: rgba(208, 204, 198, 1);
+   text-align: left;
 }
 
 .text-page-container form {
-	width: 100%;
-	height: 100%;
+   width: 100%;
+   height: 100%;
 }
 
 .text-page-container hr {
-	margin: 1.5rem 0 1.5rem 0;
-	border-top: 1px solid rgba(255, 255, 255, 1);
+   margin: 1rem 0;
+   border-top: 1px solid rgba(255, 255, 255, 1);
 }
 
 .text-page-preview-title {
-	text-align: left;
-	width: 100%;
-	color: rgb(255, 255, 255);
+   text-align: left;
+   width: 100%;
+   color: rgb(255, 255, 255);
 }
 
 .text-page-preview-text {
-	text-align: left;
-	min-height: 70vh;
-	height: 80%;
-	min-width: 40vw;
-	color: rgb(255, 255, 255);
-	white-space: break-spaces;
+   text-align: left;
+   min-height: 70vh;
+   height: 80%;
+   min-width: 40vw;
+   color: rgb(255, 255, 255);
+   white-space: break-spaces;
 }
 
 .translation-text-preview {
-	text-align: left;
-	width: 100%;
-	color: rgb(255, 255, 255);
-	white-space: break-spaces;
+   text-align: left;
+   width: 100%;
+   color: rgb(255, 255, 255);
+   white-space: break-spaces;
 }
 
 .text-page-preview-user {
-	color: rgb(129, 131, 132);
-	text-align: left;
-	font-size: 10px;
-	cursor: text;
-	margin-bottom: 0.1rem;
+   color: rgb(129, 131, 132);
+   text-align: left;
+   font-size: 10px;
+   cursor: text;
+   margin-bottom: 0.1rem;
 }
 
 .text-page-preview-language {
-	width: 4.5vw;
-	background-color: rgb(38, 151, 124);
-	color: black;
-	text-align: center;
-	font-size: 0.9vw;
-	margin: 0.1rem 0;
-	cursor: text;
-	border-radius: 0.5rem;
+   width: 4.5vw;
+   background-color: rgb(38, 151, 124);
+   color: black;
+   text-align: center;
+   font-size: 0.9vw;
+   margin: 0.1rem 0;
+   cursor: text;
+   border-radius: 0.5rem;
 }
 
 .language-choose-container-add-translation {
-	min-width: 15rem;
-	width: 15rem;
-	color: white !important;
+   min-width: 15rem;
+   width: 15rem;
+   color: white !important;
 }
 
 .text-empty-container {
-	text-align: center;
+   text-align: center;
 }
 
-.translation-reaction-container {
-	display: flex;
-	margin-top: 1rem;
+.translation-button-container {
+   display: flex;
+   gap: 1rem;
+   margin: 0.5rem 0;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
 }
 
-.like-count-container {
-	margin: 0 0.5rem 0 0.5rem;
-	cursor: text;
-	font-size: 1rem;
+.translation-add-container {
+   color: black;
+   margin: 0.5rem 0;
+}
+
+.translation-rating-container {
+   display: flex;
+   align-items: center;
+   gap: 0;
 }
 
 .reaction-input {
-	cursor: pointer;
+   cursor: pointer;
 }
 
 .reaction-input-chosen {
-	pointer-events: none;
-	color: yellow;
+   pointer-events: none;
+   color: yellow;
 }
 
 .text-containers {
-	margin-bottom: 2rem;
-	width: max-content;
-	opacity: 1;
+   margin-bottom: 2rem;
+   width: max-content;
+   opacity: 1;
 }
 
 .empty {
-	opacity: 0.8;
-	cursor: pointer;
+   opacity: 0.8;
+   cursor: pointer;
 }
 
 .empty:hover {
-	opacity: 1;
+   opacity: 1;
 }
 
 .has-translation {
-	background-color: rgb(36, 39, 41);
-	cursor: pointer;
+   background-color: rgb(36, 39, 41);
+   cursor: pointer;
 }
 
 .has-translation:hover {
-	background-color: rgb(151, 38, 65);
+   background-color: rgb(151, 38, 65);
 }
 
 .is-translating {
-	background-color: rgb(151, 38, 65) !important;
-	opacity: 1;
-	cursor: auto;
+   background-color: rgb(151, 38, 65) !important;
+   opacity: 1;
+   cursor: auto;
 }
 
 .text-page-header {
-	width: 100%;
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
+   width: 100%;
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
 }
 
 .text-page-header-info {
-	flex: 2 1;
-	margin-right: 0.5rem;
+   flex: 2 1;
+   margin-right: 0.5rem;
 }
 
 .text-page-header-info .remove-input {
-	margin: 0.5rem 0 0 0;
+   margin: 0.5rem 0 0 0;
 }
 
-.remove-input {
-	margin-left: 1rem;
-	cursor: pointer;
-	color: red;
+.text-page-button-container {
+   margin-top: 1rem;
 }
 
 .loader-container {
-	text-align: center;
+   text-align: center;
 }
 
 .lds-dual-ring {
-	display: inline-block;
-	width: 80px;
-	height: 80px;
+   display: inline-block;
+   width: 80px;
+   height: 80px;
 }
 .lds-dual-ring:after {
-	content: ' ';
-	display: block;
-	width: 64px;
-	height: 64px;
-	margin: 8px;
-	border-radius: 50%;
-	border: 6px solid #fff;
-	border-color: #fff transparent #fff transparent;
-	animation: lds-dual-ring 1.2s linear infinite;
+   content: ' ';
+   display: block;
+   width: 64px;
+   height: 64px;
+   margin: 8px;
+   border-radius: 50%;
+   border: 6px solid #fff;
+   border-color: #fff transparent #fff transparent;
+   animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
 }

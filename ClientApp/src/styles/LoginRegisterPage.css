@@ -1,0 +1,66 @@
+.signup-form-container {
+   height: calc(100vh - 100px);
+   width: calc(100vw - 1px);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.signup-form {
+   background-color: rgb(13, 14, 14);
+   width: 15vw;
+   text-align: center;
+   padding: 0.5rem;
+}
+
+.signup-toggle-element {
+   font-size: 0.9em;
+   display: block;
+   margin: 0.5rem;
+   color: #fff;
+   cursor: pointer;
+}
+
+.signup-toggle-element:hover {
+   font-weight: 800;
+}
+
+.login {
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   margin-bottom: 1rem;
+}
+
+h2 {
+   color: white;
+   font-weight: 800;
+   margin: 0.5rem 0 0 0;
+}
+
+.wrong-credentials-error {
+   border-color: red;
+   animation: vertical-shaking 0.25s 1;
+}
+
+.wrong-credentials-text {
+   color: red !important;
+   font-size: 0.75rem;
+   margin-top: 0.5rem;
+}
+
+@keyframes vertical-shaking {
+   0% {
+      transform: translateY(0);
+   }
+   25% {
+      transform: translateY(5px);
+   }
+   50% {
+      transform: translateY(-5px);
+   }
+   75% {
+      transform: translateY(5px);
+   }
+   100% {
+      transform: translateY(0);
+   }
+}

@@ -2,28 +2,12 @@ html,
 body,
 #root,
 .App {
-	height: calc(100% - 2px);
-	width: 100%;
-	background-color: rgb(20, 25, 30);
-	margin: 0;
+   height: calc(100% - 2px);
+   width: 100%;
+   background-color: rgb(20, 25, 30);
+   margin: 0;
 }
 
-button {
-	border-color: #736b5e;
-	color: #e8e6e3;
-	background-color: #181a1b;
-	border-radius: 0.5rem;
-}
-
-button:hover {
-	border-color: #736b5e;
-	color: #e8e6e3;
-	background-color: #2e3235;
-	padding: 0.2rem 0.5rem;
-}
-
-button:disabled {
-	background-color: #cccccc !important;
-	color: #000000 !important;
-	pointer-events: none;
+.input-field-wrapper {
+   margin: 1rem;
 }
