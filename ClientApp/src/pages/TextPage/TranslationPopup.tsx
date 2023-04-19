@@ -215,7 +215,7 @@ const TranslationPopup = (props: ITranslationPopupProps) => {
                                     placeholder='Translation'
                                     color='black'
                                     minRows={1}
-                                    style={{ width: 'max-content', background: '#333', color: 'white' }}
+                                    style={{ width: '100%', background: '#333', color: 'white' }}
                                     value={translationForm.text}
                                     onChange={e => setTranslationForm({ text: e.currentTarget.value, isFormActive: true })}
                                     required

@@ -103,13 +103,15 @@ namespace InzynierkaBackend.Controllers
         // POST: api/Text
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Text>> PostText([FromForm] string title, [FromForm] string text, [FromForm] string language, [FromForm] int idUser)
+        public async Task<ActionResult<Text>> PostText(TextDto dto)
         {
-            var texts = new Text();
-            texts.title = title;
-            texts.text = text;
-            texts.language = language;
-            texts.idUser = idUser;
+            var texts = new Text
+            {
+                title = dto.title,
+                text = dto.text,
+                language = dto.language,
+                idUser = dto.idUser
+            };
 
             if (_context.Texts == null)
             {

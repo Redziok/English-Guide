@@ -54,7 +54,7 @@ namespace mingielewicz_inzynierka.Controllers
         // POST: api/User
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("register")]
-        public IActionResult Register([FromForm] RegisterDto dto)
+        public IActionResult Register(RegisterDto dto)
         {
             var user = new User
             {

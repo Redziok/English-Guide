@@ -118,14 +118,16 @@ namespace mingielewicz_inzynierka.Controllers
         // POST: api/Translation
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TranslationDto>> PostTranslation([FromForm] string translatedText, [FromForm] string language, [FromForm] int idText, [FromForm] int idUser, [FromForm] int sectionId)
+        public async Task<ActionResult<Translation>> PostTranslation(TranslationDto dto)
         {
-            var translations = new Translation();
-            translations.translatedText = translatedText;
-            translations.language = language;
-            translations.idText = idText;
-            translations.idUser = idUser;
-            translations.sectionId = sectionId;
+            var translations = new Translation
+            {
+                translatedText = dto.translatedText,
+                language = dto.language,
+                idText = dto.idText,
+                idUser = dto.idUser,
+                sectionId = dto.sectionId
+            };
 
             if (_context.Translations == null)
             {

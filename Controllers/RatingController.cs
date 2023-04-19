@@ -96,22 +96,24 @@ namespace mingielewicz_inzynierka.Controllers
         // POST: api/Rating
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Rating>> PostOrUpdateRating([FromForm] int rating,[FromForm] int idUser,[FromForm] int idTranslation,[FromForm] int idText)
+        public async Task<ActionResult<Rating>> PostOrUpdateRating(RatingDto dto)
         {
-            var ratings = new Rating();
-            ratings.rating = rating;
-            ratings.idUser = idUser;
-            ratings.idTranslation = idTranslation;
-            ratings.idText = idText;
+            var ratings = new Rating
+            {
+                rating = dto.rating,
+                idUser = dto.idUser,
+                idTranslation = dto.idTranslation,
+                idText = dto.idText
+            };
 
             if (_context.Ratings == null)
             {
                 return Problem("Entity set 'DataContext.Ratings'  is null.");
             }
-            var existingRating = _context.Ratings.Where(p => p.idUser == idUser && p.idTranslation == idTranslation).FirstOrDefault();
+            var existingRating = _context.Ratings.Where(p => p.idUser == dto.idUser && p.idTranslation == dto.idTranslation).FirstOrDefault();
             if (existingRating != null)
             {
-                existingRating.rating = rating;
+                existingRating.rating = dto.rating;
                 await _context.SaveChangesAsync();
                 return CreatedAtAction("GetRatings", new { id = existingRating.id }, existingRating);
             }

@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("LocalDatabase")));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddCors();
 builder.Services.AddScoped<JwtService>();
